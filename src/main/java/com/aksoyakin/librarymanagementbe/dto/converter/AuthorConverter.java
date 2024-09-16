@@ -1,6 +1,6 @@
 package com.aksoyakin.librarymanagementbe.dto.converter;
 
-import com.aksoyakin.librarymanagementbe.domain.Author;
+import com.aksoyakin.librarymanagementbe.model.Author;
 import com.aksoyakin.librarymanagementbe.dto.AuthorDto;
 import org.springframework.stereotype.Component;
 

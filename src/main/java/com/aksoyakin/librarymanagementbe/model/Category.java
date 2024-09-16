@@ -1,4 +1,4 @@
-package com.aksoyakin.librarymanagementbe.domain;
+package com.aksoyakin.librarymanagementbe.model;
 
 public enum Category {
     FICTION,

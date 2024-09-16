@@ -1,14 +1,18 @@
 package com.aksoyakin.librarymanagementbe.service;
 
-import com.aksoyakin.librarymanagementbe.domain.Book;
+import com.aksoyakin.librarymanagementbe.model.Book;
 import com.aksoyakin.librarymanagementbe.dto.AuthorDto;
 import com.aksoyakin.librarymanagementbe.dto.BookDto;
 import com.aksoyakin.librarymanagementbe.dto.converter.AuthorConverter;
 import com.aksoyakin.librarymanagementbe.dto.converter.BookConverter;
 import com.aksoyakin.librarymanagementbe.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,5 +35,20 @@ public class BookService {
 
         bookRepository.save(book);
         return bookConverter.convertToDto(book);
+    }
+
+    public List<BookDto> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        return bookConverter.convertToDto(books);
+    }
+
+    public BookDto getBookByName(String name) {
+        Optional<Book> book = bookRepository.findByName(name);
+        return bookConverter.convertToDto(book.orElseThrow(() -> new RuntimeException("Book not found.")));
+    }
+
+    public List<BookDto> findBooksByAuthor(String name) {
+        Optional<List<Book>> books = bookRepository.findByAuthorName(name);
+        return bookConverter.convertToDto(books);
     }
 }

@@ -1,6 +1,6 @@
 package com.aksoyakin.librarymanagementbe.repository;
 
-import com.aksoyakin.librarymanagementbe.domain.Author;
+import com.aksoyakin.librarymanagementbe.model.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

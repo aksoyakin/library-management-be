@@ -1,6 +1,6 @@
 package com.aksoyakin.librarymanagementbe.service;
 
-import com.aksoyakin.librarymanagementbe.domain.Author;
+import com.aksoyakin.librarymanagementbe.model.Author;
 import com.aksoyakin.librarymanagementbe.dto.AuthorDto;
 import com.aksoyakin.librarymanagementbe.dto.converter.AuthorConverter;
 import com.aksoyakin.librarymanagementbe.repository.AuthorRepository;
