@@ -1,13 +1,13 @@
 package com.aksoyakin.librarymanagementbe.service;
 
-import com.aksoyakin.librarymanagementbe.model.Book;
+import com.aksoyakin.librarymanagementbe.model.entity.AuthorEntity;
+import com.aksoyakin.librarymanagementbe.model.entity.BookEntity;
 import com.aksoyakin.librarymanagementbe.dto.AuthorDto;
 import com.aksoyakin.librarymanagementbe.dto.BookDto;
-import com.aksoyakin.librarymanagementbe.dto.converter.AuthorConverter;
 import com.aksoyakin.librarymanagementbe.dto.converter.BookConverter;
+import com.aksoyakin.librarymanagementbe.model.dto.book.request.BookCreateRequest;
 import com.aksoyakin.librarymanagementbe.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,35 +20,35 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final BookConverter bookConverter;
     private final AuthorService authorService;
-    private final AuthorConverter authorConverter;
 
-    public BookDto createBook(BookDto bookDto) {
-        AuthorDto authorDto = authorService.createAuthor(bookDto.getAuthorName());
+    public BookDto createBook(
+            final BookCreateRequest request
+    ) {
+        final BookEntity bookEntityToBeSave = BookConverter.mapForSaving(request);
 
-        Book book = Book.builder()
-                .name(bookDto.getName())
-                .category(bookDto.getCategory())
-                .author(authorConverter.convertToEntity(authorDto))
-                .build();
+        final AuthorDto authorDto = authorService.getAuthorById(request.getAuthorId());
 
-        bookRepository.save(book);
-        return bookConverter.convertToDto(book);
+        bookEntityToBeSave.setAuthorEntity(AuthorEntity.builder().id(authorDto.getId()).build());
+
+        bookRepository.save(bookEntityToBeSave);
+
+        return BookConverter.toDto(bookEntityToBeSave);
     }
 
     public List<BookDto> getAllBooks() {
-        List<Book> books = bookRepository.findAll();
-        return bookConverter.convertToDto(books);
+        List<BookEntity> bookEntities = bookRepository.findAll();
+        return BookConverter.toDto(bookEntities);
     }
 
     public BookDto getBookByName(String name) {
-        Optional<Book> book = bookRepository.findByName(name);
-        return bookConverter.convertToDto(book.orElseThrow(() -> new RuntimeException("Book not found.")));
+        Optional<BookEntity> book = bookRepository.findByName(name);
+        return BookConverter.toDto(book.orElseThrow(() -> new RuntimeException("Book not found.")));
     }
 
     public List<BookDto> findBooksByAuthor(String name) {
-        Optional<List<Book>> books = bookRepository.findByAuthorName(name);
-        return bookConverter.convertToDto(books);
+        //Optional<List<BookEntity>> books = bookRepository.findByAuthorName(name);
+        //return BookConverter.toDto(books);
+        return List.of();
     }
 }

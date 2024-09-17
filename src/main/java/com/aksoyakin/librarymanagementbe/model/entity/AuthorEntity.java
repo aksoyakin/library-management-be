@@ -1,4 +1,4 @@
-package com.aksoyakin.librarymanagementbe.model;
+package com.aksoyakin.librarymanagementbe.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Author {
+public class AuthorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,6 @@ public class Author {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "author")
-    private Set<Book> books;
+    @OneToMany(mappedBy = "authorEntity")
+    private Set<BookEntity> bookEntities;
 }

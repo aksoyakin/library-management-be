@@ -3,7 +3,7 @@ spring:
     name: library-management-be
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/library-management
+    url: jdbc:postgresql://localhost:5432/library_management
     username: postgres
     password: root
 

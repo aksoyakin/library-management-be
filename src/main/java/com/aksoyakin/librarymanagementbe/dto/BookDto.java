@@ -1,6 +1,6 @@
 package com.aksoyakin.librarymanagementbe.dto;
 
-import com.aksoyakin.librarymanagementbe.model.Category;
+import com.aksoyakin.librarymanagementbe.model.enums.Category;
 import lombok.Builder;
 import lombok.Data;
 

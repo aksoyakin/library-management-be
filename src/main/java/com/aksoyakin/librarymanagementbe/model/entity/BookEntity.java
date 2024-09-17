@@ -1,5 +1,6 @@
-package com.aksoyakin.librarymanagementbe.model;
+package com.aksoyakin.librarymanagementbe.model.entity;
 
+import com.aksoyakin.librarymanagementbe.model.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,12 +9,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "book")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Book {
+public class BookEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    private Author author;
+    private AuthorEntity authorEntity;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -1,37 +1,49 @@
 package com.aksoyakin.librarymanagementbe.dto.converter;
 
-import com.aksoyakin.librarymanagementbe.model.Book;
+import com.aksoyakin.librarymanagementbe.model.entity.BookEntity;
 import com.aksoyakin.librarymanagementbe.dto.BookDto;
-import org.springframework.stereotype.Component;
+import com.aksoyakin.librarymanagementbe.model.dto.book.request.BookCreateRequest;
+import lombok.experimental.UtilityClass;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@UtilityClass
 public class BookConverter {
 
-    public BookDto convertToDto(Book from) {
-        return BookDto.builder()
-                .id(from.getId())
-                .name(from.getName())
-                .authorName(from.getAuthor().getName())
-                .category(from.getCategory())
+    public BookEntity mapForSaving(
+            final BookCreateRequest request
+    ) {
+        return BookEntity.builder()
+                .name(request.getName())
+                .category(request.getCategory())
                 .build();
     }
 
-    public List<BookDto> convertToDto(Optional<List<Book>> books) {
+    public BookDto toDto(
+            final BookEntity entity
+    ) {
+        return BookDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .authorName(entity.getAuthorEntity().getName())
+                .category(entity.getCategory())
+                .build();
+    }
+
+    public List<BookDto> toDto(Optional<List<BookEntity>> books) {
         return books
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(this::convertToDto)
+                .map(BookConverter::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<BookDto> convertToDto(List<Book> books) {
-        return books.stream()
-                .map(this::convertToDto)
+    public List<BookDto> toDto(List<BookEntity> bookEntities) {
+        return bookEntities.stream()
+                .map(BookConverter::toDto)
                 .collect(Collectors.toList());
     }
 
